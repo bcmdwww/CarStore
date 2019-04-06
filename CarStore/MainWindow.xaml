@@ -8,12 +8,12 @@
         Title="MainWindow" Height="450" Width="800"
         
         >
-    <Grid x:Name="gr_MainArea" ShowGridLines="True">
+    <Grid x:Name="gr_MainArea" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="50">
-                
+            <RowDefinition Height="21">
+
             </RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="scroll" 
                       Background="DarkGray"
@@ -21,29 +21,23 @@
                       VerticalScrollBarVisibility="Disabled"
                       Grid.Row="1">
             <StackPanel x:Name="sp_ViewaArea" Orientation="Horizontal">
-                
-                <Grid Background="Azure" Width="300" Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0" ></Image>
-                    <TextBlock Grid.Row="1">Car_Name</TextBlock>
-                    <TextBlock Grid.Row="2">Car_Info</TextBlock>
-                    <Grid Grid.Row="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0">Price</TextBlock>
-                        <Button Content="TO ISSUE" Grid.Column="1" Background="WhiteSmoke"></Button>
-                    </Grid>
-                </Grid>
-                
             </StackPanel>
         </ScrollViewer>
-        
-       </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="tbx_Search" Grid.Column="0">Search</TextBox>
+            <Button x:Name="bt_add" Grid.Column="4" Click="Bt_add_Click">Add Car</Button>
+            <TextBlock x:Name="tb_status" Grid.Column="5">status</TextBlock>
+            <Button x:Name="bt_Connect" Grid.Column="6" Background="Red" Click="Bt_Connect_Click">Connect to DB</Button>
+            
+        </Grid>
+    </Grid>
 </Window>

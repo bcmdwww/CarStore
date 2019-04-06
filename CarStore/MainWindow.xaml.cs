@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,54 +23,70 @@ namespace CarShop
     /// </summary>
     public partial class MainWindow : Window
     {
+        
+        private Controller controller;
+        internal SQLController sqlDB;
 
-        private StackElement element;
-        //sp_ViewaArea.Children.Add(new TabPanel { Width = 300, Margin = new Thickness(10), Background = randBrush(), Opacity = 0.3});
         public MainWindow()
         {
             InitializeComponent();
-            element = new StackElement("Nissan Skyline R32 GT-R V-Spec",
-                "Twin-turbo, 2.6-liter inline-six.\n"+
-                "276 horsepower.\n"+
-                "271 pound - feet.\n" +
-                "Unofficially rated at 316 horses.\n" +
-                "0 to 62 mph in 4.7 seconds.\n"+
-                "All - wheel drive.\n" +
-                "Top speed at more than 150 mph.\n" +
-                "Nurburgring record in the 1980s.",
-                10000, new Image());
-            sp_ViewaArea.Children.Add(element.MainGrid);
+            controller = new Controller();
+            sqlDB = new SQLController();
+            
+        }
+        
+        private void Bt_Connect_Click(object sender, RoutedEventArgs e)
+        {
+            if (sqlDB.connection == null || sqlDB.connection.State == ConnectionState.Closed)
+            {
+                if (sqlDB.Connect())
+                {
+                    tb_status.Text = sqlDB.connection.State.ToString();
+                    bt_Connect.Content = "Close DB";
+                    bt_Connect.Background = Brushes.Green;
+                    sqlDB.Update(ref controller);
+                    UpdateStackView();
+                }
+                return;
+            }
+            else if (sqlDB.connection.State == ConnectionState.Open)
+            {
+                if (sqlDB.Disconnect())
+                {
+                    tb_status.Text = sqlDB.connection.State.ToString();
+                    bt_Connect.Content = "Connect to DB";
+                    bt_Connect.Background = Brushes.Red;
+                    controller.Clear();
+                    UpdateStackView();
+                }
+               return;
+            }
+            
         }
 
-        
-        
-        private Brush randBrush()
+        private void Bt_add_Click(object sender, RoutedEventArgs e)
         {
-            Random rnd = new Random();
-            int k = rnd.Next(0,8);
-            switch (k)
+            if (sqlDB.connection == null || sqlDB.connection.State == ConnectionState.Closed)
             {
-                case 0:
-                    return Brushes.Black;
-                case 1:
-                    return Brushes.White;
-                case 2:
-                    return Brushes.Red;
-                case 3:
-                    return Brushes.Orange;
-                case 4:
-                    return Brushes.Yellow;
-                case 5:
-                    return Brushes.Green;
-                case 6:
-                    return Brushes.Blue;
-                case 7:
-                    return Brushes.DarkBlue;
-                case 8:
-                    return Brushes.Violet;
-                default:
-                    return Brushes.White;
+                MessageBox.Show("DataBase is disconnected");
+                return;
+            }
+            AddToDb Window = new AddToDb(sqlDB.connection);
+            Window.ShowDialog();
+            sqlDB.Update(ref controller);
+        }
+
+        private void UpdateStackView()
+        {
+            if(controller.ReturnAll().Count == 0)
+            {
+                sp_ViewaArea.Children.Clear();
+            }
+            foreach (var element in controller.ReturnAll())
+            {
+                sp_ViewaArea.Children.Add(new StackElement(element.CarName,element.CarInfo,element.Price, element.Image).MainGrid);
             }
         }
+
     }
 }
