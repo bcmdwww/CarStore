@@ -90,7 +90,8 @@ namespace CarShop
         {
             string connectionString;
             OpenFileDialog myDialog = new OpenFileDialog();
-            myDialog.Filter = "Картинки(*.mdf)|*.MDF" + "|Все файлы (*.*)|*.* ";
+            myDialog.Title = "Chose database";
+            myDialog.Filter = "database(*.mdf)|*.MDF" + "|Все файлы (*.*)|*.* ";
             myDialog.CheckFileExists = true;
             myDialog.Multiselect = false;
             if (myDialog.ShowDialog() == true)
