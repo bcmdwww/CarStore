@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -9,16 +10,14 @@ using System.Windows;
 
 namespace CarShop
 {
-
     class SQLController
     {
-
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\_Ctrl_\Documents\Cars.mdf;Integrated Security=True;Connect Timeout=30";
+        string connectionStr;
         public SqlConnection connection;
-
+  
         public SQLController()
         {
-            connection = new SqlConnection(connectionString);
+                connection = new SqlConnection(GetFileDir());
         }
 
         public bool Connect()
@@ -85,5 +84,25 @@ namespace CarShop
                 MessageBox.Show(ex.ToString());
             }
         }
+
+
+        private string GetFileDir()
+        {
+            string connectionString;
+            OpenFileDialog myDialog = new OpenFileDialog();
+            myDialog.Filter = "Картинки(*.mdf)|*.MDF" + "|Все файлы (*.*)|*.* ";
+            myDialog.CheckFileExists = true;
+            myDialog.Multiselect = false;
+            if (myDialog.ShowDialog() == true)
+            {
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + myDialog.FileName + ";Integrated Security=True;Connect Timeout=30";
+                return connectionString;
+            }
+            else
+            {
+                return GetFileDir();
+            }
+        }
+            
     }
 }
