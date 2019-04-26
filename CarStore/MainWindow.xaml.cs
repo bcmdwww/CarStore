@@ -88,5 +88,31 @@ namespace CarShop
             }
         }
 
+        private void Tbx_Search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sqlDB != null) {
+                if (!tbx_Search.Text.Equals(""))
+                {
+                    foreach(var element in sp_ViewaArea.Children)
+                    {
+                        (element as Grid).Children.Clear() ;
+                    }
+                    sp_ViewaArea.Children.Clear();
+                    foreach (var element in controller.FindItem(tbx_Search.Text))
+                    {
+                        sp_ViewaArea.Children.Add(new StackElement(element.CarName, element.CarInfo, element.Price, element.Image).MainGrid);
+                    }
+                }
+                else
+                {
+                    foreach (var element in sp_ViewaArea.Children)
+                    {
+                        (element as Grid).Children.Clear();
+                    }
+                    sp_ViewaArea.Children.Clear();
+                    UpdateStackView();
+                }
+            }
+        }
     }
 }

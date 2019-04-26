@@ -28,8 +28,8 @@ namespace CarShop
             List<DataItem> currentList = new List<DataItem>();
             foreach(var element in dataItems)
             {
-                if (element.CarName.Contains(targetText)) currentList.Add(element);
-                else if (element.CarInfo.Contains(targetText)) currentList.Add(element);
+                if (element.CarName.ToLower().Contains(targetText.ToLower())) currentList.Add(element);
+                else if (element.CarInfo.ToLower().Contains(targetText.ToLower())) currentList.Add(element);
                 else if (element.Price.ToString().Contains(targetText)) currentList.Add(element);
             }
             if(currentList.Count != 0)
@@ -37,7 +37,7 @@ namespace CarShop
                 return currentList;
             }
 
-            return null;
+            return new List<DataItem>();
         }
         public void Clear()
         {

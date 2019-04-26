@@ -81,27 +81,35 @@ namespace CarShop
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
 
         private string GetFileDir()
         {
-            string connectionString;
-            OpenFileDialog myDialog = new OpenFileDialog();
-            myDialog.Title = "Chose database";
-            myDialog.Filter = "database(*.mdf)|*.MDF" + "|Все файлы (*.*)|*.* ";
-            myDialog.CheckFileExists = true;
-            myDialog.Multiselect = false;
-            if (myDialog.ShowDialog() == true)
+            try
             {
-                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + myDialog.FileName + ";Integrated Security=True;Connect Timeout=30";
-                return connectionString;
+                string connectionString;
+                OpenFileDialog myDialog = new OpenFileDialog();
+                myDialog.Title = "Chose database";
+                myDialog.Filter = "database(*.mdf)|*.MDF" + "|Все файлы (*.*)|*.* ";
+                myDialog.CheckFileExists = true;
+                myDialog.Multiselect = false;
+                if (myDialog.ShowDialog() == true)
+                {
+                    connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + myDialog.FileName + ";Integrated Security=True;Connect Timeout=30";
+                    return connectionString;
+                }
+                else
+                {
+                    throw new Exception("the empty choise");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return GetFileDir();
+                MessageBox.Show(ex.Message);
+                return @"Empty connection string!"; 
             }
         }
             

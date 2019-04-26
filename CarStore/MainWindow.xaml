@@ -33,7 +33,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbx_Search" Grid.Column="0">Search</TextBox>
+            <TextBox x:Name="tbx_Search" Grid.Column="0" TextChanged="Tbx_Search_TextChanged">Search</TextBox>
             <Button x:Name="bt_add" Grid.Column="4" Click="Bt_add_Click">Add Car</Button>
             <TextBlock x:Name="tb_status" Grid.Column="5">status</TextBlock>
             <Button x:Name="bt_Connect" Grid.Column="6" Background="Red" Click="Bt_Connect_Click">Connect to DB</Button>

@@ -67,7 +67,11 @@ namespace CarShop
             Grid.SetColumn(Button, 1);
             Button.Click += Button_click; 
         }
-
+        public void ClearReference()
+        {
+            MainGrid.Children.Clear();
+            
+        }
         void Button_click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("test");
